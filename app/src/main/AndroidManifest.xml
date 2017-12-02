@@ -30,7 +30,11 @@
         </activity>
         <activity
             android:name=".VerifRegActivity"
-            android:label="Verif Registry"></activity>
+            android:label="Verif Registry" />
+        <activity
+            android:name=".MenuActivity"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
