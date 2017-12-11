@@ -1,5 +1,6 @@
-package com.example.bayu.kosman;
+package com.example.bayu.kosman.views;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,10 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.example.bayu.kosman.R;
+import com.example.bayu.kosman.Static;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private SharedPreferences mySharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,11 @@ public class MenuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
+
+        String string1 = mySharedPreferences.getString("access_token", null);
+        Toast.makeText(this, string1, Toast.LENGTH_SHORT).show();
     }
 
     @Override

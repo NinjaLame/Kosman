@@ -1,9 +1,11 @@
-package com.example.bayu.kosman;
+package com.example.bayu.kosman.views;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.example.bayu.kosman.R;
 
 public class VerifRegActivity extends AppCompatActivity {
 

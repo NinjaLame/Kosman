@@ -1,18 +1,32 @@
-package com.example.bayu.kosman;
+package com.example.bayu.kosman.views;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.bayu.kosman.R;
+import com.example.bayu.kosman.Static;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegistryActivity extends AppCompatActivity {
     ViewAnimator regAnimator;
@@ -93,10 +107,53 @@ public class RegistryActivity extends AppCompatActivity {
             intent.putExtra("email",semail);
             intent.putExtra("password",spass);
             intent.putExtra("phone",sphone);
-
+            register(name,email,pass,phone);
             startActivity(new Intent(this,MainActivity.class));
             finish();
         }
 
     }
+    public void register(EditText inp_nama, EditText inp_email, EditText inp_pass,EditText inp_phone) {
+        final String email = inp_email.getText().toString().trim();
+        final String password = inp_pass.getText().toString().trim();
+        final String nama = inp_nama.getText().toString().trim();
+        final String phone = inp_phone.getText().toString().trim();
+        //Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, password, Toast.LENGTH_SHORT).show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Static.REGIST_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        JSONObject object;
+                        if (response.contains("name")) {
+                            Toast.makeText(RegistryActivity.this, "sukses", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(RegistryActivity.this, MainActivity.class));
+                            finish();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(RegistryActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(LoginActivity.this, "The server unreachable", Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                //Adding parameters to request
+                params.put(Static.KEY_EMAIL, email);
+                params.put(Static.KEY_PASSWORD, password);
+                params.put(Static.KEY_NAME, nama);
+                params.put(Static.KEY_PHONE, phone);
+
+                //returning parameter
+                return params;
+            }
+        };
+        //Adding the string request to the queue
+        Volley.newRequestQueue(this).add(stringRequest);
+    }
+
 }

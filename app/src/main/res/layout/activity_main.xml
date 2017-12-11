@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bayu.kosman.MainActivity">
+    tools:context="com.example.bayu.kosman.views.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,16 +12,20 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:padding="30dp">
+
         <EditText
+            android:id="@+id/inp_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress" />
+
         <EditText
+            android:id="@+id/inp_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
