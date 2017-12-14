@@ -28,10 +28,11 @@ public class   MainActivity extends AppCompatActivity {
 
     private EditText inp_pass;
     private EditText inp_email;
+    SharedPreferences mySharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
+        mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
         super.onCreate(savedInstanceState);
         String id = mySharedPreferences.getString("access_token", null);
         if(id==null){
@@ -60,6 +61,8 @@ public class   MainActivity extends AppCompatActivity {
     public void loginVal(EditText inp_email, EditText inp_pass) {
         final String email = inp_email.getText().toString().trim();
         final String password = inp_pass.getText().toString().trim();
+        final String[] id = {""};
+        final String[] userId = {""};
         //Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
         //Toast.makeText(this, password, Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Static.LOGIN_URL,
@@ -69,16 +72,19 @@ public class   MainActivity extends AppCompatActivity {
                         //Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                         JSONObject object;
                         if(response.contains("id")){
-                            Toast.makeText(MainActivity.this, "sukses", Toast.LENGTH_SHORT).show();
-                            String id = "";
+                            //Toast.makeText(MainActivity.this, "sukses", Toast.LENGTH_SHORT).show();
+
                             try {
                                 object = new JSONObject(response);
-                                id = object.getString("id");
+                                id[0] = object.getString("id");
+                                userId[0] = object.getString("userId");
                                 //Toast.makeText(MainActivity.this, id, Toast.LENGTH_SHORT).show();
                                 SharedPreferences.Editor editor;
                                 SharedPreferences mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode); ;
                                 editor = mySharedPreferences.edit();
-                                editor.putString("access_token",id);
+                                editor.putString("access_token", id[0]);
+                                editor.putString("userId", userId[0]);
+
                                 editor.commit();
                                 startActivity(new Intent(MainActivity.this,MenuActivity.class));
                                 finish();
@@ -94,7 +100,7 @@ public class   MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 //Toast.makeText(LoginActivity.this, "The server unreachable", Toast.LENGTH_LONG).show();
             }
         }){
@@ -111,6 +117,7 @@ public class   MainActivity extends AppCompatActivity {
         };
         //Adding the string request to the queue
         Volley.newRequestQueue(this).add(stringRequest);
+        Toast.makeText(this, id[0], Toast.LENGTH_SHORT).show();
     }
 
 }
