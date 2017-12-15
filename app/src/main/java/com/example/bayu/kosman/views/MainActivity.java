@@ -44,11 +44,13 @@ public class   MainActivity extends AppCompatActivity {
 
         }
         else {
+            finish();
             mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
             Intent i=new Intent(MainActivity.this,MenuActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
-            finish();
+
         }
 
     }
@@ -61,6 +63,8 @@ public class   MainActivity extends AppCompatActivity {
     public void Login(View view) {
 
         loginVal(inp_email,inp_pass);
+        String ud = mySharedPreferences.getString("userId","loading");
+        Toast.makeText(this, ud, Toast.LENGTH_SHORT).show();
     }
 
     public void loginVal(EditText inp_email, EditText inp_pass) {

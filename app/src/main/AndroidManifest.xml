@@ -11,7 +11,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".views.MainActivity"
-            android:label="Login Kosman">
+            android:label="Login Kosman"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
