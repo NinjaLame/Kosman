@@ -8,10 +8,10 @@ import android.app.Activity;
 
 public class Static {
     //URL to our login.php file, url bisa diganti sesuai dengan alamat server kita
-
-    public static final String LOGIN_URL = "http://192.168.31.130:3001/api/Owners/login";
-    public static final String REGIST_URL = "http://192.168.31.130:3001/api/Owners";
-    public static final String OWNER_URL= "http://192.168.31.130:3001/api/Owners";
+    public static final String BASE_URL= "http://192.168.31.130:3001"
+    public static final String LOGIN_URL = BASE_URL+"/api/Owners/login";
+    public static final String REGIST_URL = BASE_URL+"/api/Owners";
+    public static final String OWNER_URL= BASE_URL+"/api/Owners";
     //Keys for email and password as defined in our $_POST['key'] in login.php
     public static final String KEY_EMAIL = "email";
     public static String MY_PREFS = "MY_PREFS";

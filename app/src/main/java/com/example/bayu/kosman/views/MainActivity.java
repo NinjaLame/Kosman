@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,9 +41,13 @@ public class   MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
             inp_email = (EditText)findViewById(R.id.inp_email);
             inp_pass = (EditText)findViewById(R.id.inp_password);
+
         }
         else {
-            startActivity(new Intent(MainActivity.this,MenuActivity.class));
+            mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
+            Intent i=new Intent(MainActivity.this,MenuActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
             finish();
         }
 
@@ -84,9 +89,13 @@ public class   MainActivity extends AppCompatActivity {
                                 editor = mySharedPreferences.edit();
                                 editor.putString("access_token", id[0]);
                                 editor.putString("userId", userId[0]);
-
                                 editor.commit();
+
+                                Owners(userId[0]);
+
+                                //Toast.makeText(MainActivity.this, mySharedPreferences.getString("access_token",null), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(MainActivity.this,MenuActivity.class));
+
                                 finish();
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -117,7 +126,63 @@ public class   MainActivity extends AppCompatActivity {
         };
         //Adding the string request to the queue
         Volley.newRequestQueue(this).add(stringRequest);
-        Toast.makeText(this, id[0], Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, id[0], Toast.LENGTH_SHORT).show();
+    }
+
+    public void Owners(String userId) {
+        final String[] email = new String[1];
+        final String[] name = new String[1];
+        final String[] phone = new String[1];
+        final String[] bankNumber = new String[1];
+        mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
+
+        final String access_token = mySharedPreferences.getString("access_token", null);
+        //Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, password, Toast.LENGTH_SHORT).show();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Static.OWNER_URL+"/"+userId+"?access_token="+access_token,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        JSONObject object;
+                        if(response.contains("id")){
+                            //Toast.makeText(MainActivity.this, "sukses", Toast.LENGTH_SHORT).show();
+
+                            try {
+                                object = new JSONObject(response);
+                                name[0] = object.getString("name");
+                                email[0] = object.getString("email");
+                                phone[0] = object.getString("phone");
+                                bankNumber[0] = object.getString("bankNumber");
+                                //Toast.makeText(MainActivity.this, id, Toast.LENGTH_SHORT).show();
+                                SharedPreferences.Editor editor;
+                                editor = mySharedPreferences.edit();
+                                editor.putString("name", name[0]);
+                                editor.putString("email", email[0]);
+                                editor.putString("phone", phone[0]);
+                                editor.putString("bankNumber", bankNumber[0]);
+                                editor.commit();
+
+                                //Toast.makeText(MainActivity.this, name[0], Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(MenuActivity.this, name[0], Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }else{
+
+                        }
+
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MenuActivity.this, "The server unreachable", Toast.LENGTH_LONG).show();
+            }
+        });
+        //Adding the string request to the queue
+        Volley.newRequestQueue(this).add(stringRequest);
     }
 
 }

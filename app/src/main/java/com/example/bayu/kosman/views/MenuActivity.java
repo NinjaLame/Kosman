@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,12 +33,17 @@ public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SharedPreferences mySharedPreferences;
+    public String email ;
+    public String name ;
+    TextView headName;
+    TextView headEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -48,25 +54,25 @@ public class MenuActivity extends AppCompatActivity
             }
         });
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
-        TextView temp = (TextView)findViewById(R.id.name);
 
-        String userId = mySharedPreferences.getString("userId",null);
-        temp.setText(userId);
+        //Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
 
-
-        //headEmail.setText(email);
+        Log.i("Log","On crete");
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -76,19 +82,28 @@ public class MenuActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+
+        Log.i("Log","back pressed");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        TextView headName = (TextView)findViewById(R.id.nav_head_name);
-        TextView headEmail = (TextView)findViewById(R.id.nav_head_email);
-        String email = mySharedPreferences.getString("email",null);
-        String name = mySharedPreferences.getString("name", null);
-        headName.setText(name);
-        headEmail.setText(email);
 
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+
+        String userId = mySharedPreferences.getString("userId",null);
+
+        Owners(userId);
+        headName = (TextView)findViewById(R.id.nav_head_name);
+        email= mySharedPreferences.getString("email","Loading");
+        name = mySharedPreferences.getString("name", "Loading");
+        headEmail = (TextView)findViewById(R.id.nav_head_email);
+        headEmail.setText(email);
+        headName.setText(name);
+
+        Log.i("Log","On crete Menu");
         return true;
     }
 
@@ -97,6 +112,7 @@ public class MenuActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Log.i("Log","On selected");
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -111,6 +127,7 @@ public class MenuActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
         if (id == R.id.nav_manage) {
@@ -128,7 +145,6 @@ public class MenuActivity extends AppCompatActivity
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -137,7 +153,6 @@ public class MenuActivity extends AppCompatActivity
     public void buildingList(){
 
     }
-
 
     public void Owners(String userId) {
         final String[] email = new String[1];
@@ -173,7 +188,9 @@ public class MenuActivity extends AppCompatActivity
                                 editor.putString("phone", phone[0]);
                                 editor.putString("bankNumber", bankNumber[0]);
                                 editor.commit();
-                                Toast.makeText(MenuActivity.this, name[0], Toast.LENGTH_SHORT).show();
+
+                                //Toast.makeText(MainActivity.this, name[0], Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(MenuActivity.this, name[0], Toast.LENGTH_SHORT).show();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -187,7 +204,7 @@ public class MenuActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(MenuActivity.this, "The server unreachable", Toast.LENGTH_LONG).show();
+                //Toast.makeText(MenuActivity.this, "The server unreachable", Toast.LENGTH_LONG).show();
             }
         });
         //Adding the string request to the queue
