@@ -51,8 +51,7 @@ public class MenuActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(MenuActivity.this,AddBuildingActivity.class));
             }
         });
 
@@ -79,10 +78,6 @@ public class MenuActivity extends AppCompatActivity
                 recyler.setAdapter(Buildings);
                 linearLayoutManager = new LinearLayoutManager(MenuActivity.this);
                 recyler.setLayoutManager(linearLayoutManager);
-
-                Toast.makeText(MenuActivity.this, result, Toast.LENGTH_SHORT).show();
-
-
             }
         });
 

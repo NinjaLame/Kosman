@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bayu.kosman">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".views.MainActivity"
-            android:label="Login Kosman"
+            android:label="Kosman"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +37,10 @@
         <activity
             android:name=".views.MenuActivity"
             android:label="@string/title_activity_menu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".views.AddBuildingActivity"
+            android:parentActivityName=".views.MenuActivity"
+            android:label="Add Buildings"></activity>
     </application>
 
 </manifest>
