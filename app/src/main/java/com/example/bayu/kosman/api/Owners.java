@@ -46,7 +46,11 @@ public class Owners  {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                       callback.onSuccess(response);
+                        try {
+                            callback.onSuccess(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

@@ -4,33 +4,29 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.bayu.kosman.R;
 import com.example.bayu.kosman.Static;
+import com.example.bayu.kosman.adapters.BuildingsAdapter;
 import com.example.bayu.kosman.api.Owners;
 import com.example.bayu.kosman.interfaces.VolleyCallback;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,7 +36,9 @@ public class MenuActivity extends AppCompatActivity
     public String name ;
     TextView headName;
     TextView headEmail;
-    String Buildings;
+    BuildingsAdapter Buildings;
+    RecyclerView recyler;
+    LinearLayoutManager linearLayoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,13 +69,19 @@ public class MenuActivity extends AppCompatActivity
         String ud = mySharedPreferences.getString("userId","loading");
         Owners owner = new Owners(this);
 
+        recyler =(RecyclerView)findViewById(R.id.myRecycler);
 
-        final TextView name = (TextView)findViewById(R.id.name);
 
         owner.buildingList(ud, new VolleyCallback() {
             @Override
-            public void onSuccess(String result) {
-                 name.setText(result);
+            public void onSuccess(String result) throws JSONException {
+                Buildings = new BuildingsAdapter(MenuActivity.this,result);
+                recyler.setAdapter(Buildings);
+                linearLayoutManager = new LinearLayoutManager(MenuActivity.this);
+                recyler.setLayoutManager(linearLayoutManager);
+
+                Toast.makeText(MenuActivity.this, result, Toast.LENGTH_SHORT).show();
+
 
             }
         });
