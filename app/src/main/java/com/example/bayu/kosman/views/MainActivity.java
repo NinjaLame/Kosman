@@ -18,12 +18,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bayu.kosman.R;
 import com.example.bayu.kosman.Static;
+import com.example.bayu.kosman.api.Owners;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 public class   MainActivity extends AppCompatActivity {
 
@@ -72,6 +75,7 @@ public class   MainActivity extends AppCompatActivity {
         final String password = inp_pass.getText().toString().trim();
         final String[] id = {""};
         final String[] userId = {""};
+        final Owners owner = new Owners(this);
         //Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
         //Toast.makeText(this, password, Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Static.LOGIN_URL,
@@ -95,7 +99,7 @@ public class   MainActivity extends AppCompatActivity {
                                 editor.putString("userId", userId[0]);
                                 editor.commit();
 
-                                Owners(userId[0]);
+                                owner.OwnerData(userId[0]);
 
                                 //Toast.makeText(MainActivity.this, mySharedPreferences.getString("access_token",null), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(MainActivity.this,MenuActivity.class));
@@ -133,60 +137,5 @@ public class   MainActivity extends AppCompatActivity {
         //Toast.makeText(this, id[0], Toast.LENGTH_SHORT).show();
     }
 
-    public void Owners(String userId) {
-        final String[] email = new String[1];
-        final String[] name = new String[1];
-        final String[] phone = new String[1];
-        final String[] bankNumber = new String[1];
-        mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
-
-        final String access_token = mySharedPreferences.getString("access_token", null);
-        //Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this, password, Toast.LENGTH_SHORT).show();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Static.OWNER_URL+"/"+userId+"?access_token="+access_token,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                        JSONObject object;
-                        if(response.contains("id")){
-                            //Toast.makeText(MainActivity.this, "sukses", Toast.LENGTH_SHORT).show();
-
-                            try {
-                                object = new JSONObject(response);
-                                name[0] = object.getString("name");
-                                email[0] = object.getString("email");
-                                phone[0] = object.getString("phone");
-                                bankNumber[0] = object.getString("bankNumber");
-                                //Toast.makeText(MainActivity.this, id, Toast.LENGTH_SHORT).show();
-                                SharedPreferences.Editor editor;
-                                editor = mySharedPreferences.edit();
-                                editor.putString("name", name[0]);
-                                editor.putString("email", email[0]);
-                                editor.putString("phone", phone[0]);
-                                editor.putString("bankNumber", bankNumber[0]);
-                                editor.commit();
-
-                                //Toast.makeText(MainActivity.this, name[0], Toast.LENGTH_SHORT).show();
-                                //Toast.makeText(MenuActivity.this, name[0], Toast.LENGTH_SHORT).show();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }else{
-
-                        }
-
-                    }
-
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(MenuActivity.this, "The server unreachable", Toast.LENGTH_LONG).show();
-            }
-        });
-        //Adding the string request to the queue
-        Volley.newRequestQueue(this).add(stringRequest);
-    }
 
 }

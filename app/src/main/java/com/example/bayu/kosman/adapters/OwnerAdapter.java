@@ -1,5 +1,6 @@
 package com.example.bayu.kosman.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 
 
 public class OwnerAdapter extends RecyclerView.Adapter<OwnerAdapter.myOwnHolder> {
+
+
 
 
     public OwnerAdapter(){
