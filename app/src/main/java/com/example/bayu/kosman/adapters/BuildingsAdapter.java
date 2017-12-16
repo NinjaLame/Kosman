@@ -1,9 +1,11 @@
 package com.example.bayu.kosman.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  * Created by bayu on 03/12/17.
@@ -15,13 +17,17 @@ import android.view.ViewGroup;
 
 
 
-public class OwnerAdapter extends RecyclerView.Adapter<OwnerAdapter.myOwnHolder> {
+public class BuildingsAdapter extends RecyclerView.Adapter<BuildingsAdapter.myOwnHolder> {
 
 
+    JSONArray BuildingArray;
 
-
-    public OwnerAdapter(){
-
+    public BuildingsAdapter(String result) throws JSONException {
+        try {
+            this.BuildingArray = new JSONArray(result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

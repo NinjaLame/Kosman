@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bayu.kosman.Static;
+import com.example.bayu.kosman.interfaces.VolleyCallback;
 import com.example.bayu.kosman.views.MainActivity;
 import com.example.bayu.kosman.views.MenuActivity;
 
@@ -31,7 +32,6 @@ import android.content.Context;
 public class Owners  {
 
     public SharedPreferences mySharedPreferences;
-    private JSONArray buildings;
     Context context;
 
     public Owners(Context ctx){
@@ -40,17 +40,13 @@ public class Owners  {
     }
 
 
-    public JSONArray buildingList(String userId){
+    public void buildingList(String userId, final VolleyCallback callback){
         final String access_token = mySharedPreferences.getString("access_token", null);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Static.OWNER_URL + "/" + userId + "?access_token=" + access_token,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Static.OWNER_URL + "/" + userId+"/" + "buildings?access_token=" + access_token,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-                            buildings =new JSONArray(response);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                       callback.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -60,7 +56,7 @@ public class Owners  {
         });
 
         Volley.newRequestQueue(context).add(stringRequest);
-        return buildings;
+
     }
 
 

@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.bayu.kosman.R;
 import com.example.bayu.kosman.Static;
 import com.example.bayu.kosman.api.Owners;
+import com.example.bayu.kosman.interfaces.VolleyCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +40,7 @@ public class MenuActivity extends AppCompatActivity
     public String name ;
     TextView headName;
     TextView headEmail;
+    String Buildings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,17 +71,16 @@ public class MenuActivity extends AppCompatActivity
         String ud = mySharedPreferences.getString("userId","loading");
         Owners owner = new Owners(this);
 
-        JSONArray temp = owner.buildingList(ud);
-        TextView name = (TextView)findViewById(R.id.name);
-        JSONObject tmp = null;
-        try {
-            tmp = temp.getJSONObject(0);
-            name.setText(tmp.getString("name").toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        //Toast.makeText(this, temp.toString(), Toast.LENGTH_SHORT).show();
+        final TextView name = (TextView)findViewById(R.id.name);
+
+        owner.buildingList(ud, new VolleyCallback() {
+            @Override
+            public void onSuccess(String result) {
+                 name.setText(result);
+
+            }
+        });
 
     }
 
