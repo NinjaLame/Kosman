@@ -25,6 +25,8 @@ import java.util.Map;
 
 import static android.support.v4.content.ContextCompat.startActivity;
 import android.content.Context;
+import android.widget.Toast;
+
 /**
  * Created by bayu on 12/12/17.
  */
@@ -120,5 +122,33 @@ public class Owners  {
         Volley.newRequestQueue(context).add(stringRequest);
     }
 
+    public void AddBuilding(String userId, final String bName, final String bAddress, final String bCapacity){
+        final String access_token = mySharedPreferences.getString("access_token", null);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Static.OWNER_URL + "/" + userId + "/buildings?access_token=" + access_token,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
+            }
+        }){
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                //Adding parameters to request
+                params.put("name", bName);
+                params.put("address", bAddress);
+                params.put("capacity", bCapacity);
+
+                //returning parameter
+                return params;
+            }
+        };
+        Volley.newRequestQueue(context).add(stringRequest);
+    }
 }
