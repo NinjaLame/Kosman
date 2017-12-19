@@ -45,7 +45,7 @@ public class BuildingFragment extends Fragment {
     private SharedPreferences mySharedPreferences;
     BuildingsAdapter Buildings;
     RecyclerView recyler;
-    LinearLayoutManager linearLayoutManager;
+    RecyclerView.LayoutManager LayoutManager;
     private OnFragmentInteractionListener mListener;
 
     public BuildingFragment() {
@@ -86,32 +86,32 @@ public class BuildingFragment extends Fragment {
         mySharedPreferences = this.getActivity().getSharedPreferences(Static.MY_PREFS, Static.prefMode);
         String ud = mySharedPreferences.getString("userId","loading");
         Owners owner = new Owners(getContext());
-        final View view = inflater.inflate(R.layout.activity_menu, container, false);
+        final View view = inflater.inflate(R.layout.fragment_building, container, false);
         recyler =(RecyclerView)view.findViewById(R.id.my_Recycler);
         final FragmentActivity c = getActivity();
-        Toast.makeText(c, R.id.my_Recycler, Toast.LENGTH_SHORT).show();
-        linearLayoutManager = new LinearLayoutManager(c);
-        //recyler.setLayoutManager(linearLayoutManager);
+
         owner.buildingList(ud, new VolleyCallback() {
 
             @Override
             public void onSuccess(String result) throws JSONException {
 
                 Buildings = new BuildingsAdapter(getContext(),result);
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        c.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                //recyler.setAdapter(Buildings);
-                                Toast.makeText(c, "succ", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }).start();
+                LayoutManager = new LinearLayoutManager(c);
+                recyler.setAdapter(Buildings);
+                recyler.setLayoutManager(LayoutManager);
+//                Toast.makeText(c, "succ", Toast.LENGTH_SHORT).show();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        c.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//
+//
+//                            }
+//                        });
+//                    }
+//                }).start();
 
             }
 
