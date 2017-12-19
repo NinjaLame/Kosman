@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.bayu.kosman.R;
 import com.example.bayu.kosman.Static;
 import com.example.bayu.kosman.api.Owners;
+import com.example.bayu.kosman.interfaces.VolleyCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;

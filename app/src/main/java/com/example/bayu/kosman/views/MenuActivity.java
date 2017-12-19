@@ -2,10 +2,11 @@ package com.example.bayu.kosman.views;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,6 +21,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
+import com.example.bayu.kosman.Fragment.BuildingFragment;
+import com.example.bayu.kosman.Fragment.TestFragment;
 import com.example.bayu.kosman.R;
 import com.example.bayu.kosman.Static;
 import com.example.bayu.kosman.adapters.BuildingsAdapter;
@@ -29,7 +33,10 @@ import com.example.bayu.kosman.interfaces.VolleyCallback;
 import org.json.JSONException;
 
 public class MenuActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener
+        ,TestFragment.OnFragmentInteractionListener
+        ,BuildingFragment.OnFragmentInteractionListener
+{
 
     private SharedPreferences mySharedPreferences;
     public String email ;
@@ -68,18 +75,7 @@ public class MenuActivity extends AppCompatActivity
         String ud = mySharedPreferences.getString("userId","loading");
         Owners owner = new Owners(this);
 
-        recyler =(RecyclerView)findViewById(R.id.myRecycler);
 
-
-        owner.buildingList(ud, new VolleyCallback() {
-            @Override
-            public void onSuccess(String result) throws JSONException {
-                Buildings = new BuildingsAdapter(MenuActivity.this,result);
-                recyler.setAdapter(Buildings);
-                linearLayoutManager = new LinearLayoutManager(MenuActivity.this);
-                recyler.setLayoutManager(linearLayoutManager);
-            }
-        });
 
     }
 
@@ -113,7 +109,9 @@ public class MenuActivity extends AppCompatActivity
         headEmail.setText(email);
         headName.setText(name);
 
-        Log.i("Log","On crete Menu");
+
+
+
         return true;
     }
 
@@ -140,8 +138,24 @@ public class MenuActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_manage) {
-
+        if (id == R.id.nav_building) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(R.id.myFrame,new BuildingFragment())
+                    .commit();
+            //Toast.makeText(this, "Nav BUilding", Toast.LENGTH_SHORT).show();
+        }
+        else if(id == R.id.nav_member){
+//            Intent i= new Intent(MenuActivity.this,MemberActivity.class);
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//            startActivity(i);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(R.id.myFrame,new TestFragment())
+                    .commit();
         }
         else if (id == R.id.nav_logout) {
             SharedPreferences.Editor editor;
@@ -161,4 +175,8 @@ public class MenuActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

@@ -57,7 +57,11 @@ public class Owners  {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                try {
+                    callback.onErr(error);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
