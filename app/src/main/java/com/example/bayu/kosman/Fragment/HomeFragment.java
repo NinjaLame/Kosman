@@ -1,39 +1,24 @@
 package com.example.bayu.kosman.Fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.example.bayu.kosman.R;
-import com.example.bayu.kosman.Static;
-import com.example.bayu.kosman.adapters.BuildingsAdapter;
-import com.example.bayu.kosman.api.Owners;
-import com.example.bayu.kosman.interfaces.VolleyCallback;
-import com.example.bayu.kosman.views.MenuActivity;
-
-import org.json.JSONException;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BuildingFragment.OnFragmentInteractionListener} interface
+ * {@link HomeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link BuildingFragment#newInstance} factory method to
+ * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BuildingFragment extends Fragment {
+public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,13 +27,10 @@ public class BuildingFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private SharedPreferences mySharedPreferences;
-    BuildingsAdapter Buildings;
-    RecyclerView recyler;
-    RecyclerView.LayoutManager LayoutManager;
+
     private OnFragmentInteractionListener mListener;
 
-    public BuildingFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -58,11 +40,11 @@ public class BuildingFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BuildingFragment.
+     * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BuildingFragment newInstance(String param1, String param2) {
-        BuildingFragment fragment = new BuildingFragment();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -77,52 +59,14 @@ public class BuildingFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        mySharedPreferences = this.getActivity().getSharedPreferences(Static.MY_PREFS, Static.prefMode);
-        String ud = mySharedPreferences.getString("userId","loading");
-        Owners owner = new Owners(getContext());
-
-        owner.buildingList(ud, new VolleyCallback() {
-
-            @Override
-            public void onSuccess(String result) throws JSONException {
-
-                Buildings = new BuildingsAdapter(getContext(),result);
-                LayoutManager = new LinearLayoutManager(getContext());
-                recyler.setAdapter(Buildings);
-                recyler.setLayoutManager(LayoutManager);
-                Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
-
-
-            }
-
-            @Override
-            public void onErr(VolleyError result) throws JSONException {
-                Toast.makeText(getContext(), "new succ", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
     }
 
-
-    @SuppressLint("ResourceType")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_building, container, false);
-        recyler =(RecyclerView)view.findViewById(R.id.my_Recycler);
-        final FragmentActivity c = getActivity();
-        try {
-            Buildings = new BuildingsAdapter(getContext(),"{}");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        recyler.setAdapter(Buildings);
-        return inflater.inflate(R.layout.fragment_building, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
-
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

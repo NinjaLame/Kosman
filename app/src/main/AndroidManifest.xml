@@ -45,7 +45,10 @@
         <activity
             android:name=".views.MemberActivity"
             android:label="@string/title_activity_member"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".views.BuildingDetailActivity"
+            android:parentActivityName=".views.MenuActivity"
+            android:label="Detail"></activity>
     </application>
 
 </manifest>

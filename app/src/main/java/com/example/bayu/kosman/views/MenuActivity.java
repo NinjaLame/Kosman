@@ -23,7 +23,10 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.example.bayu.kosman.Fragment.BuildingFragment;
+import com.example.bayu.kosman.Fragment.BuildingListFragment;
+import com.example.bayu.kosman.Fragment.HomeFragment;
 import com.example.bayu.kosman.Fragment.TestFragment;
+import com.example.bayu.kosman.Fragment.dummy.DummyContent;
 import com.example.bayu.kosman.R;
 import com.example.bayu.kosman.Static;
 import com.example.bayu.kosman.adapters.BuildingsAdapter;
@@ -36,6 +39,8 @@ public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
         ,TestFragment.OnFragmentInteractionListener
         ,BuildingFragment.OnFragmentInteractionListener
+        ,BuildingListFragment.OnListFragmentInteractionListener
+        ,HomeFragment.OnFragmentInteractionListener
 {
 
     private SharedPreferences mySharedPreferences;
@@ -74,6 +79,13 @@ public class MenuActivity extends AppCompatActivity
         mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
         String ud = mySharedPreferences.getString("userId","loading");
         Owners owner = new Owners(this);
+
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.myFrame,new BuildingListFragment())
+                .commit();
 
 
 
@@ -142,7 +154,7 @@ public class MenuActivity extends AppCompatActivity
             getSupportFragmentManager()
                     .beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.myFrame,new BuildingFragment())
+                    .replace(R.id.myFrame,new BuildingListFragment())
                     .commit();
             //Toast.makeText(this, "Nav BUilding", Toast.LENGTH_SHORT).show();
         }
@@ -177,6 +189,11 @@ public class MenuActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
     }
 }
