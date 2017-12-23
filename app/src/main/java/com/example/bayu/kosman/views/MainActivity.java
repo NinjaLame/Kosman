@@ -51,7 +51,6 @@ public class   MainActivity extends AppCompatActivity {
             finish();
             mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
             Intent i=new Intent(MainActivity.this,MenuActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
 

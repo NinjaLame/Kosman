@@ -67,7 +67,6 @@ public class BuildingsAdapter extends RecyclerView.Adapter<BuildingsAdapter.myOw
                     i.putExtra("name",name);
                     i.putExtra("address",address);
                     i.putExtra("capacity",capacity);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(i);
 
                 }
