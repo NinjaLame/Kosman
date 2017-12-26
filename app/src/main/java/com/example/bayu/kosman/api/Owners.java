@@ -3,6 +3,7 @@ package com.example.bayu.kosman.api;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
@@ -103,9 +104,12 @@ public class Owners  {
                                 editor.putString("phone", phone[0]);
                                 editor.putString("bankNumber", bankNumber[0]);
                                 editor.commit();
-
-                                //Toast.makeText(MainActivity.this, name[0], Toast.LENGTH_SHORT).show();
-                                //Toast.makeText(MenuActivity.this, name[0], Toast.LENGTH_SHORT).show();
+                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+                                SharedPreferences.Editor edit = sharedPref.edit();
+                                edit.putString("name",name[0]);
+                                edit.putString("email",email[0]);
+                                edit.putString("phone",phone[0]);
+                                edit.commit();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

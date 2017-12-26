@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="name"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Name" />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="email"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Email" />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="phone"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Pone Number" />
+</PreferenceScreen>

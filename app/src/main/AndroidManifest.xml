@@ -14,7 +14,8 @@
         <activity
             android:name=".views.MainActivity"
             android:label="Kosman"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -25,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.example.bayu.kosman.Fragment.BuildingFragment;
 import com.example.bayu.kosman.Fragment.BuildingListFragment;
 import com.example.bayu.kosman.Fragment.HomeFragment;
+import com.example.bayu.kosman.Fragment.SettingFragment;
 import com.example.bayu.kosman.Fragment.TestFragment;
 import com.example.bayu.kosman.Fragment.dummy.DummyContent;
 import com.example.bayu.kosman.R;
@@ -41,6 +43,7 @@ public class MenuActivity extends AppCompatActivity
         ,BuildingFragment.OnFragmentInteractionListener
         ,BuildingListFragment.OnListFragmentInteractionListener
         ,HomeFragment.OnFragmentInteractionListener
+        ,SettingFragment.OnFragmentInteractionListener
 {
 
     private SharedPreferences mySharedPreferences;
@@ -79,7 +82,7 @@ public class MenuActivity extends AppCompatActivity
         mySharedPreferences = getSharedPreferences(Static.MY_PREFS, Static.prefMode);
         String ud = mySharedPreferences.getString("userId","loading");
         Owners owner = new Owners(this);
-
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -90,6 +93,7 @@ public class MenuActivity extends AppCompatActivity
 
 
     }
+
 
 
     @Override
@@ -109,7 +113,8 @@ public class MenuActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.menu, menu);
-
+        for (int i = 0; i < menu.size(); i++)
+            menu.getItem(i).setVisible(false);
 
         String userId = mySharedPreferences.getString("userId",null);
 
@@ -180,6 +185,12 @@ public class MenuActivity extends AppCompatActivity
                     .getLaunchIntentForPackage( getBaseContext().getPackageName() );
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
+        }
+        else if(id == R.id.nav_manage){
+            getSupportFragmentManager().beginTransaction()
+                    .setTransition(android.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                    .replace(R.id.myFrame, new SettingFragment())
+                    .commit();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
