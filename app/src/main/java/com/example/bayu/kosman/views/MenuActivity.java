@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.example.bayu.kosman.Fragment.BuildingFragment;
 import com.example.bayu.kosman.Fragment.BuildingListFragment;
 import com.example.bayu.kosman.Fragment.HomeFragment;
+import com.example.bayu.kosman.Fragment.MemberFragment;
 import com.example.bayu.kosman.Fragment.SettingFragment;
 import com.example.bayu.kosman.Fragment.TestFragment;
 import com.example.bayu.kosman.Fragment.dummy.DummyContent;
@@ -39,7 +40,7 @@ import org.json.JSONException;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
-        ,TestFragment.OnFragmentInteractionListener
+        ,MemberFragment.OnFragmentInteractionListener
         ,BuildingFragment.OnFragmentInteractionListener
         ,BuildingListFragment.OnListFragmentInteractionListener
         ,HomeFragment.OnFragmentInteractionListener
@@ -164,7 +165,7 @@ public class MenuActivity extends AppCompatActivity
             getSupportFragmentManager()
                     .beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.myFrame,new TestFragment())
+                    .replace(R.id.myFrame,new MemberFragment())
                     .commit();
         }
         else if (id == R.id.nav_logout) {

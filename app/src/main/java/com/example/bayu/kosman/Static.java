@@ -8,7 +8,7 @@ import android.app.Activity;
 
 public class Static {
     //URL to our login.php file, url bisa diganti sesuai dengan alamat server kita
-    public static final String BASE_URL= "http://192.168.100.8:3001";
+    public static final String BASE_URL= "http://192.168.100.10:3001";
     public static final String LOGIN_URL = BASE_URL+"/api/Owners/login";
     public static final String REGIST_URL = BASE_URL+"/api/Owners";
     public static final String OWNER_URL= BASE_URL+"/api/Owners";

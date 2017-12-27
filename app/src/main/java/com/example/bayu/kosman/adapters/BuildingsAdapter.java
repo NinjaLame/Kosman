@@ -21,12 +21,6 @@ import org.json.JSONObject;
  * Created by bayu on 03/12/17.
  */
 
-
-
-
-
-
-
 public class BuildingsAdapter extends RecyclerView.Adapter<BuildingsAdapter.myOwnHolder> {
 
 
@@ -78,6 +72,7 @@ public class BuildingsAdapter extends RecyclerView.Adapter<BuildingsAdapter.myOw
         }
     }
 
+
     @Override
     public int getItemCount() {
         return BuildingArray.length();
@@ -95,4 +90,5 @@ public class BuildingsAdapter extends RecyclerView.Adapter<BuildingsAdapter.myOw
             linearLayout = (LinearLayout)itemView.findViewById(R.id.buildings_row);
         }
     }
+
 }
