@@ -1,8 +1,10 @@
 package com.example.bayu.kosman.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,8 @@ import com.example.bayu.kosman.Static;
 import com.example.bayu.kosman.adapters.BuildingsAdapter;
 import com.example.bayu.kosman.api.Owners;
 import com.example.bayu.kosman.interfaces.VolleyCallback;
+import com.example.bayu.kosman.views.AddBuildingActivity;
+import com.example.bayu.kosman.views.MenuActivity;
 
 import org.json.JSONException;
 
@@ -90,17 +94,15 @@ public class BuildingListFragment extends Fragment {
             }
         });
         // Set the adapter
-        if (view instanceof RecyclerView) {
 
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),AddBuildingActivity.class));
+            }
+        });
 
-
-//            if (mColumnCount <= 1) {
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            } else {
-//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-//            }
-            //recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
         return view;
     }
 

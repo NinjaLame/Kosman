@@ -70,7 +70,32 @@ public class Owners  {
 
     }
 
+    public void  updateOwner(String userId){
 
+        final String access_token = mySharedPreferences.getString("access_token", null);
+        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, Static.OWNER_URL + "/" + userId + "?access_token=" + access_token,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(context, "Data Update Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("name",mySharedPreferences.getString("name","loading"));
+                params.put("phone",mySharedPreferences.getString("phone","loading"));
+                params.put("email",mySharedPreferences.getString("email","loading"));
+                return params;
+            }
+        };
+        Volley.newRequestQueue(context).add(stringRequest);
+    }
     public void OwnerData(String userId) {
         final String[] email = new String[1];
         final String[] name = new String[1];
@@ -154,6 +179,31 @@ public class Owners  {
                 params.put("capacity", bCapacity);
 
                 //returning parameter
+                return params;
+            }
+        };
+        Volley.newRequestQueue(context).add(stringRequest);
+    }
+    public void UpdateBuilding(final String Id, final String bName, final String bAddress, final String bCapacity){
+        final String access_token = mySharedPreferences.getString("access_token", null);
+        StringRequest stringRequest = new StringRequest(Request.Method.PATCH, Static.BUILDING_URL + "/" + Id + "?access_token=" + access_token,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(context, "Update Succsesfull", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Check your connection", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", bName);
+                params.put("address", bAddress);
+                params.put("capacity", bCapacity);
                 return params;
             }
         };

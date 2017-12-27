@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:layout_marginTop="100dp"
     tools:context="com.example.bayu.kosman.views.BuildingDetailActivity">
 
     <RelativeLayout
@@ -63,7 +64,7 @@
             android:textColorHint="@android:color/background_dark" />
 
         <EditText
-            android:id="@+id/b_name"
+            android:id="@+id/b_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -96,7 +97,7 @@
             android:textColorHint="@android:color/background_dark" />
 
         <EditText
-            android:id="@+id/bd_capacity"
+            android:id="@+id/b_capacity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -114,6 +115,7 @@
 
     <Button
         android:layout_width="match_parent"
+        android:onClick="updateBuilding"
         android:layout_height="wrap_content"
         android:text="Save"/>
     

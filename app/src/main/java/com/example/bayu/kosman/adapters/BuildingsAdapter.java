@@ -53,10 +53,11 @@ public class BuildingsAdapter extends RecyclerView.Adapter<BuildingsAdapter.myOw
     public void onBindViewHolder(myOwnHolder holder, int position) {
 
         try {
-            JSONObject obj = BuildingArray.getJSONObject(position);
+            final JSONObject obj = BuildingArray.getJSONObject(position);
             final String name = obj.getString("name");
             final String address = obj.getString("address");
             final String capacity = obj.getString("capacity");
+            final String id = obj.getString("id");
             holder.Bname.setText(name);
             holder.Baddress.setText(address);
 
@@ -67,6 +68,7 @@ public class BuildingsAdapter extends RecyclerView.Adapter<BuildingsAdapter.myOw
                     i.putExtra("name",name);
                     i.putExtra("address",address);
                     i.putExtra("capacity",capacity);
+                    i.putExtra("id",id);
                     context.startActivity(i);
 
                 }

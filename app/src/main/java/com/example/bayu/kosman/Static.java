@@ -12,6 +12,7 @@ public class Static {
     public static final String LOGIN_URL = BASE_URL+"/api/Owners/login";
     public static final String REGIST_URL = BASE_URL+"/api/Owners";
     public static final String OWNER_URL= BASE_URL+"/api/Owners";
+    public static final String BUILDING_URL = BASE_URL+"/api/Buildings";
     //Keys for email and password as defined in our $_POST['key'] in login.php
     public static final String KEY_EMAIL = "email";
     public static String MY_PREFS = "MY_PREFS";

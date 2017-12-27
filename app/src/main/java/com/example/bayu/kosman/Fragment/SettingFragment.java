@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.bayu.kosman.R;
 import com.example.bayu.kosman.Static;
+import com.example.bayu.kosman.api.Owners;
 
 public class SettingFragment extends PreferenceFragmentCompat {
     @Override
@@ -35,7 +36,9 @@ public class SettingFragment extends PreferenceFragmentCompat {
         edit.putString("email",sharedPref.getString("email","loading"));
         edit.putString("phone",sharedPref.getString("phone","loading"));
         edit.commit();
-        Toast.makeText(getContext(), sharedPref.getString("email",null), Toast.LENGTH_SHORT).show();
+        String userId = mysharedPref.getString("userId","loading");
+        Owners own = new Owners(getContext());
+        own.updateOwner(userId);
         Log.i("Stat","onDetach");
     }
 
