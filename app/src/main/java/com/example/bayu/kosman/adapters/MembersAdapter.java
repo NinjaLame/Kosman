@@ -42,8 +42,6 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MyHolder
             jsonObject = memberArray.getJSONObject(position);
             String name = jsonObject.getString("name");
             holder.name.setText(name);
-            String ts= Integer.toString(memberArray.length());
-            Toast.makeText(context, ts, Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }

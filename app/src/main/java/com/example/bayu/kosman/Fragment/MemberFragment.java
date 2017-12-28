@@ -21,13 +21,20 @@ import com.example.bayu.kosman.Static;
 import com.example.bayu.kosman.adapters.MembersAdapter;
 import com.example.bayu.kosman.api.Members;
 import com.example.bayu.kosman.api.Owners;
+import com.example.bayu.kosman.api.andreItem;
+import com.example.bayu.kosman.api.andreModel;
 import com.example.bayu.kosman.interfaces.VolleyCallback;
+import com.example.bayu.kosman.models.BuildingItem;
+import com.example.bayu.kosman.models.BuildingModel;
 import com.example.bayu.kosman.views.AddBuildingActivity;
 import com.example.bayu.kosman.views.AddMemberActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,14 +79,20 @@ public class MemberFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_member, container, false);
+        final View view = inflater.inflate(R.layout.fragment_member, container, false);
         SharedPreferences mySharedPreferences = getContext().getSharedPreferences(Static.MY_PREFS, Static.prefMode);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerMemeber);
         String userId = mySharedPreferences.getString("userId",null);
         Members members = new Members(getContext());
+        List<andreItem> andrelist = new ArrayList<>();
+        andrelist.add(new andreItem("1","Andre"));
+        final andreModel andre = new andreModel(andrelist);
+
+        final List<BuildingItem> buildingList = new ArrayList<>();
+
         members.MemberList(userId, new VolleyCallback() {
 
             @Override
@@ -92,7 +105,8 @@ public class MemberFragment extends Fragment {
                     for(i=0;i<jsonArray.length();i++){
                         jsonArray1 = jsonArray.getJSONObject(i).getJSONArray("members");
                         String num = Integer.toString(jsonArray1.length());
-
+                        buildingList.add(new BuildingItem(jsonArray.getJSONObject(i).getString("id"),
+                                jsonArray.getJSONObject(i).getString("name")));
                         for(j=0;j<jsonArray1.length();j++){
                             jsonArray2.put(jsonArray1.getJSONObject(j));
 
@@ -101,7 +115,16 @@ public class MemberFragment extends Fragment {
                 MembersAdapter m = new MembersAdapter(getContext(),jsonArray2.toString());
                 recyclerView.setAdapter(m);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+                FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabMember);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(),AddMemberActivity.class);
+                        BuildingModel buildingModel = new BuildingModel(buildingList);
+                        intent.putExtra("data",buildingModel);
+                        startActivity(intent);
+                    }
+                });
 
             }
 
@@ -111,13 +134,7 @@ public class MemberFragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabMember);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(),AddMemberActivity.class));
-            }
-        });
+
         return view;
     }
 
