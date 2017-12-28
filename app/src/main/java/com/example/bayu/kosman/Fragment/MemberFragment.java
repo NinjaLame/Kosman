@@ -1,9 +1,11 @@
 package com.example.bayu.kosman.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,8 @@ import com.example.bayu.kosman.adapters.MembersAdapter;
 import com.example.bayu.kosman.api.Members;
 import com.example.bayu.kosman.api.Owners;
 import com.example.bayu.kosman.interfaces.VolleyCallback;
+import com.example.bayu.kosman.views.AddBuildingActivity;
+import com.example.bayu.kosman.views.AddMemberActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,7 +101,6 @@ public class MemberFragment extends Fragment {
                 MembersAdapter m = new MembersAdapter(getContext(),jsonArray2.toString());
                 recyclerView.setAdapter(m);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                //Toast.makeText(getContext(), jsonArray2.toString(), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -108,6 +111,13 @@ public class MemberFragment extends Fragment {
             }
         });
 
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabMember);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),AddMemberActivity.class));
+            }
+        });
         return view;
     }
 
