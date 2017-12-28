@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bayu.kosman.R;
 import com.example.bayu.kosman.views.MemberActivity;
@@ -25,7 +26,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MyHolder
     public MembersAdapter(Context ctx,String result)throws JSONException{
         this.context = ctx;
         this.memberArray = new JSONArray(result);
-        memberArray.getJSONObject(0).getJSONArray("members");
+        //memberArray.getJSONObject(0).getJSONArray("members");
     }
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,9 +37,17 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MyHolder
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-        JSONObject jsonObject = memberArray.getJSONObject(position);
-        String name = jsonObject.getString("name");
-        holder.name.setText(name);
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = memberArray.getJSONObject(position);
+            String name = jsonObject.getString("name");
+            holder.name.setText(name);
+            String ts= Integer.toString(memberArray.length());
+            Toast.makeText(context, ts, Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -54,6 +63,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MyHolder
             name = (TextView)itemView.findViewById(R.id.member_name);
             phone = (TextView)itemView.findViewById(R.id.member_phone);
             linearLayout = (LinearLayout)itemView.findViewById(R.id.item_member);
+
         }
     }
 }

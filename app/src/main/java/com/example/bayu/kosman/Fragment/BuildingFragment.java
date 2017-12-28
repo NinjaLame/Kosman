@@ -91,7 +91,7 @@ public class BuildingFragment extends Fragment {
                 LayoutManager = new LinearLayoutManager(getContext());
                 recyler.setAdapter(Buildings);
                 recyler.setLayoutManager(LayoutManager);
-                Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
 
 
             }

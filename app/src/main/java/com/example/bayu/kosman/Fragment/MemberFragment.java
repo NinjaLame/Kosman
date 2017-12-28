@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.example.bayu.kosman.R;
 import com.example.bayu.kosman.Static;
+import com.example.bayu.kosman.adapters.MembersAdapter;
 import com.example.bayu.kosman.api.Members;
 import com.example.bayu.kosman.api.Owners;
 import com.example.bayu.kosman.interfaces.VolleyCallback;
@@ -70,21 +73,14 @@ public class MemberFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_member, container, false);
         SharedPreferences mySharedPreferences = getContext().getSharedPreferences(Static.MY_PREFS, Static.prefMode);
-        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.my_Recycler);
-        Owners o = new Owners(getContext());
+        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerMemeber);
         String userId = mySharedPreferences.getString("userId",null);
         Members members = new Members(getContext());
-        members.MemberList("1", new VolleyCallback() {
+        members.MemberList(userId, new VolleyCallback() {
 
             @Override
             public void onSuccess(String result) throws JSONException {
-//                try{
-//
-//
-//
-//                }catch (Exception e){
-//
-//                }
+
                 JSONArray jsonArray = new JSONArray(result);
                 JSONArray jsonArray1 = new JSONArray("[]");
                 JSONArray jsonArray2 = new JSONArray("[]");
@@ -98,7 +94,10 @@ public class MemberFragment extends Fragment {
 
                         }
                     }
-                Toast.makeText(getContext(), jsonArray2.toString(), Toast.LENGTH_SHORT).show();
+                MembersAdapter m = new MembersAdapter(getContext(),jsonArray2.toString());
+                recyclerView.setAdapter(m);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                //Toast.makeText(getContext(), jsonArray2.toString(), Toast.LENGTH_SHORT).show();
 
 
             }
