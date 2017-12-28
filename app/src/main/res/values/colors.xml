@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="onTouch">#CDDFF4</color>
+    <color name="colorAccent">#FFBE36</color>
+    <color name="onTouch">#cddff4</color>
     <color name="whiteTouch">#ffffff</color>
+    <color name="background">#469bcc</color>
 </resources>
